@@ -1,0 +1,3 @@
+placatopay_back:
+    resource: "@PlaceToPayBundle/Router/bank_router/bank_router.yml"
+    prefix:   /placetopay

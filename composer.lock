@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "94c8466fb7f21e417e8e7caf796cfa24",
+    "content-hash": "224ce1af41fcf47525535b8d84395f3e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1000,6 +1000,39 @@
                 "random"
             ],
             "time": "2016-11-07T23:38:38+00:00"
+        },
+        {
+            "name": "placetopay/placetopaysdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nhernandezm/PlaceToPaySDK.git",
+                "reference": "815482d2b68845812fbf8da89a50d0d0eeee114d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nhernandezm/PlaceToPaySDK/zipball/815482d2b68845812fbf8da89a50d0d0eeee114d",
+                "reference": "815482d2b68845812fbf8da89a50d0d0eeee114d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6",
+                "placetopay/placetopaysdk": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PlaceToPay": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "nafer",
+                    "email": "naferh@hotmail.com"
+                }
+            ],
+            "time": "2017-01-13 05:01:37"
         },
         {
             "name": "psr/cache",
@@ -2079,14 +2112,13 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "placetopay/placetopaysdk": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.5.9"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "5.5.9"
-    }
+    "platform-dev": []
 }
