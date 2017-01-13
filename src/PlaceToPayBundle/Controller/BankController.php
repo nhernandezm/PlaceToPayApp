@@ -15,7 +15,7 @@ class BankController extends Controller
 	{
 		$listBanks = array();
 	    $placetopay = new PlaceToPay("6dd490faf9cb87a9862245da41170ff2","024h1IlD");
-	    $listBanks  = $placetopay->getBankList();
+	    $listBanks  = $placetopay->getBank()->getBankList();
 
 	    return new JsonResponse($listBanks);
 	}
