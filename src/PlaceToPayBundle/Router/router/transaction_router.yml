@@ -1,0 +1,4 @@
+placetoplay_transaction_router:
+    path:      /createtransaction
+    defaults:  { _controller: PlaceToPayBundle:Transaction:create }
+    methods:   [POST]

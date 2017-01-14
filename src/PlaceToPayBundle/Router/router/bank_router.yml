@@ -1,4 +1,4 @@
-placetoplay_bank:
+placetoplay_bank_router:
     path:      /listbanks
     defaults:  { _controller: PlaceToPayBundle:Bank:list }
     methods:   [GET]

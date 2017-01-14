@@ -1,3 +1,7 @@
 placatopay_back:
-    resource: "@PlaceToPayBundle/Router/bank_router/bank_router.yml"
+    resource: "@PlaceToPayBundle/Router/router/bank_router.yml"
+    prefix:   /placetopay
+
+placatopay_transaction:
+    resource: "@PlaceToPayBundle/Router/router/transaction_router.yml"
     prefix:   /placetopay
