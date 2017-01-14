@@ -1007,12 +1007,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nhernandezm/PlaceToPaySDK.git",
-                "reference": "6dbaff0b62cd6b8fbe91357377ba0eda027d1737"
+                "reference": "e947daf9cf6adcc0f8330ee6bd3532b8042270e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nhernandezm/PlaceToPaySDK/zipball/6dbaff0b62cd6b8fbe91357377ba0eda027d1737",
-                "reference": "6dbaff0b62cd6b8fbe91357377ba0eda027d1737",
+                "url": "https://api.github.com/repos/nhernandezm/PlaceToPaySDK/zipball/e947daf9cf6adcc0f8330ee6bd3532b8042270e1",
+                "reference": "e947daf9cf6adcc0f8330ee6bd3532b8042270e1",
                 "shasum": ""
             },
             "require": {
@@ -1032,7 +1032,7 @@
                     "email": "naferh@hotmail.com"
                 }
             ],
-            "time": "2017-01-14 04:25:07"
+            "time": "2017-01-14 22:21:16"
         },
         {
             "name": "psr/cache",
