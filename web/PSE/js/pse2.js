@@ -1,4 +1,17 @@
 $(document).ready(function() {
+
+    if (typeof(Storage) !== "undefined") {
+        localStorage.setItem("clientPayerId","");
+        localStorage.setItem("clientPayerDocument","");
+        localStorage.setItem("clientPayerDocumentType","");
+
+        localStorage.setItem("clientBuyerId","");
+        localStorage.setItem("clientBuyerDocument","");
+        localStorage.setItem("clientBuyerDocumentType","");
+    } else {
+        alert("No se puede ralizar la transacciòn, este navegador no soporta localStorage");
+    }
+
 	$("#bank").kendoComboBox({
         dataTextField: "bankName",
         dataValueField: "bankCode",
@@ -16,25 +29,39 @@ $(document).ready(function() {
         suggest: true,
         index: 3,
         change: function(e) {
-            var value = this.value();
+            /*var value = this.value();
             if(value == 0){
                 $("#labelIde").html("Idetificaciòn:");
             }
             if(value == 1){
                 $("#labelIde").html("NIT:");
-            }
+            }*/
         }
     });
 
     $("#buttonCreateTran").kendoButton();
     $("#buttonNewClient").kendoButton();
-    $("#textIdentification").kendoMaskedTextBox({});
+    $("#textIdentificationPayer").kendoMaskedTextBox({});
+    $("#textIdentificationBuyer").kendoMaskedTextBox({});
     doAjax("http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/listbanks","GET",null,function(data){
         loadBankToCombo(data);
     });
 
     $("#buttonNewClient").click(function(){
         newClient();
+    });
+
+    $("#buttonCreateTran").click(function(){
+        var documentClientBuyer = $("#textIdentificationBuyer").data("kendoMaskedTextBox");
+        var documentClientBuyerV = $.trim(documentClientBuyer.value());
+
+        var documentClientPayer = $("#textIdentificationPayer").data("kendoMaskedTextBox");
+        var documentClientPayerV = $.trim(documentClientPayer.value());
+        if(documentClientBuyerV && documentClientPayerV){
+            validateBuyerAndPayer(documentClientBuyerV,documentClientPayerV);
+        }else{
+            alert("Ingrese la identificaciòn del Pagador y del Comprador");
+        }
     });
 
 
@@ -140,8 +167,12 @@ function saveClient(){
                     alert("Cliente guardado.");
                     var windowNewClient = $("#windowNewClient").data("kendoWindow");
                     windowNewClient.close();
+                    localStorage.setItem("clientId",data.id);
+                    localStorage.setItem("clientDocument",data.document);
+                    localStorage.setItem("clientDocumentType",data.documentType);
                 }
-            });
+            }
+        );
     }
 }
 
@@ -229,4 +260,43 @@ function validateClient(){
     }else{
         return false;
     }
+}
+
+function validateBuyerAndPayer(documentClientBuyer,documentClientPayer){
+    doAjax(
+        "http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/person/validate/"+documentClientBuyer+"/"+documentClientPayer,
+        "GET",
+        null,
+        function(data){
+            if(data.buyer && data.payer){            
+                localStorage.setItem("clientId",data.id);
+                localStorage.setItem("clientDocument",data.document);
+                localStorage.setItem("clientDocumentType",data.documentType);
+
+                localStorage.setItem("clientPayerId",data.payer.id);
+                localStorage.setItem("clientPayerDocument",data.payer.document);
+                localStorage.setItem("clientPayerDocumentType",data.payer.documentType);
+
+                localStorage.setItem("clientBuyerId",data.payer.id);
+                localStorage.setItem("clientBuyerDocument",data.payer.document);
+                localStorage.setItem("clientBuyerDocumentType",data.payer.documentType);
+                
+                createTransaction(data);
+            }
+        }
+    );
+}
+
+function createTransaction(dataClient){
+    doAjax(
+        "http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/createtransaction",
+        "POST",
+        dataClient,
+        function(data){
+            if(data.createTransactionResult){
+                console.log(data.createTransactionResult);
+            }
+        }
+    );
+    
 }

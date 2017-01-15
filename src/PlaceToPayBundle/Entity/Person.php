@@ -80,6 +80,30 @@ class Person
      * @ORM\Column(type="string", length=10)
      */
     private $typePerson;
+
+    /**
+     * Retorna un array con los datos de la persona
+     * @return Array
+     */
+    public function toArray(){
+        $personArray = array();
+
+        $personArray["id"] = $this->getId();
+        $personArray["document"] = $this->getDocument();
+        $personArray["documentType"] = $this->getDocumentType();
+        $personArray["firstName"] = $this->getFirstName();
+        $personArray["lastName"] = $this->getLastName();
+        $personArray["company"] = $this->getCompany();
+        $personArray["emailAddress"] = $this->getEmailAddress();
+        $personArray["address"] = $this->getAddress();
+        $personArray["city"] = $this->getCity();
+        $personArray["province"] = $this->getProvince();
+        $personArray["country"] = $this->getCountry();
+        $personArray["phone"] = $this->getPhone();
+        $personArray["mobile"] = $this->getMobile();
+
+        return $personArray;
+    }
     
 
     /**

@@ -2,3 +2,11 @@ placetoplay_person_create:
     path:      /person/create
     defaults:  { _controller: PlaceToPayBundle:Person:create }
     methods:   [POST]
+placetoplay_person_getbydocument:
+    path:      /person/{document}
+    defaults:  { _controller: PlaceToPayBundle:Person:getPersonByDocument }
+    methods:   [GET]
+placetoplay_person_validate_buyer_payer:
+    path:      /person/validate/{documentBuyer}/{documentPayer}
+    defaults:  { _controller: PlaceToPayBundle:Person:validateBuyerAndPayer }
+    methods:   [GET]

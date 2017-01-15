@@ -11,29 +11,54 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TransactionController extends Controller
 {
-	public function createAction()
+	public function createAction(Request $request)
 	{
+
+		$content = $request->getContent();
+		$dataTansaction = json_decode($content, true);
+
+		$payerData = $dataTansaction["payer"];
+		$buyerData = $dataTansaction["buyer"];
+
 		$listBanks = array();
 	    $placetopay = new PlaceToPay("6dd490faf9cb87a9862245da41170ff2","024h1IlD");
 
 	    $payer = $placetopay->newPerson();
-		$PSETR = $placetopay->newPSETR();	    
+	    $buyer = $placetopay->newPerson();
 
-	    $payer->setDocument("1104010447");
-		$payer->setDocumentType("CC");
-		$payer->setFirstName("Nafer");
-		$payer->setLastName("Hernandez");
-		$payer->setCompany("PlaceToPay");
-		$payer->setEmailAddress("naferh@hotmail.com");
-		$payer->setAddress("Barrio 13 de junio UR India MG L4");
-		$payer->setCity("Cartagena");
-		$payer->setProvince("Bolivar");
-		$payer->setCountry("Colombia");
-		$payer->setPhone("6908765");
-		$payer->setMobile("3215678099");
+		$PSETR = $placetopay->newPSETR();	
 
+		$payer->setDocument($payerData["document"]);
+		$payer->setDocumentType($payerData["documentType"]);
+		$payer->setFirstName($payerData["firstName"]);
+		$payer->setLastName($payerData["lastName"]);
+		$payer->setCompany($payerData["company"]);
+		$payer->setEmailAddress($payerData["emailAddress"]);
+		$payer->setAddress($payerData["address"]);
+		$payer->setCity($payerData["city"]);
+		$payer->setProvince($payerData["province"]);
+		$payer->setCountry($payerData["country"]);
+		$payer->setPhone($payerData["phone"]);
+		$payer->setMobile($payerData["mobile"]);
 
-		$PSETR->setPayer($payer);
+		if($payerData["document"] == $buyerData["document"] ){ 
+			$PSETR->setPayer($payer);
+		}else{
+			$buyer->setDocument($buyerData["document"]);
+			$buyer->setDocumentType($buyerData["documentType"]);
+			$buyer->setFirstName($buyerData["firstName"]);
+			$buyer->setLastName($buyerData["lastName"]);
+			$buyer->setCompany($buyerData["company"]);
+			$buyer->setEmailAddress($buyerData["emailAddress"]);
+			$buyer->setAddress($buyerData["address"]);
+			$buyer->setCity($buyerData["city"]);
+			$buyer->setProvince($buyerData["province"]);
+			$buyer->setCountry($buyerData["country"]);
+			$buyer->setPhone($buyerData["phone"]);
+			$buyer->setMobile($buyerData["mobile"]);
+			$PSETR->setPayer($buyer);
+		}
+
 		$PSETR->setBankCode("1040");
 		$PSETR->setBankInterface(0);
 		$PSETR->setReturnURL("http://186.116.70.45:8080/PlaceToPayApp/web/");

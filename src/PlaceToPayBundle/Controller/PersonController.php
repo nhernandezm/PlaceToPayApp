@@ -18,7 +18,6 @@ class PersonController extends Controller
 		$content = $request->getContent();
 		$contentPerson = json_decode($content, true);
 
-
 		$documentType = $contentPerson["documentType"];
 		$document = $contentPerson["document"];
 		$firstName = $contentPerson["firstName"];
@@ -55,4 +54,55 @@ class PersonController extends Controller
 	    return new JsonResponse($contentPerson);
 	    //return new Response('Created product id mmm');
 	}
+
+	public function getPersonByDocumentAction($document)
+	{
+		 $em = $this->getDoctrine()->getManager();
+		 $personRepository = $em->getRepository("PlaceToPayBundle:Person");
+
+		 $person = $personRepository->findOneBy(array("document"=>$document));
+		 if($person){
+	    	return new JsonResponse($person->toArray());
+		 }else{
+		 	return new JsonResponse(array("mensaje"=>"Usuario no encontrado."));
+		 }
+	}
+
+	public function validateBuyerAndPayerAction($documentBuyer,$documentPayer)
+	{
+		 $em = $this->getDoctrine()->getManager();
+		 $personRepository = $em->getRepository("PlaceToPayBundle:Person");
+		 $responseVa = array();
+
+		if($documentBuyer == $documentPayer){
+		 	 $person = $personRepository->findOneBy(array("document"=>$documentBuyer));
+			 if($person){
+			 	$payerBuyer = array();
+			 	$payerBuyer["payer"] = $person->toArray();
+			 	$payerBuyer["buyer"] = $person->toArray();
+		    	$responseVa = $payerBuyer;
+			 }else{
+			 	$responseVa = array("mensaje"=>"No existe el Pagador.");
+			 }
+		}else{
+			$personPayer = $personRepository->findOneBy(array("document"=>$documentPayer));
+			 if($personPayer){
+			 	$payerBuyer = array();
+			 	$payerBuyer["payer"] = $personPayer->toArray();
+
+				$personBuyer = $personRepository->findOneBy(array("document"=>$documentBuyer));
+				if($personBuyer){
+					$payerBuyer["buyer"] = $personBuyer->toArray();
+					$responseVa  = $payerBuyer;
+				}else{
+					$responseVa = array("mensaje"=>"No existe el Comprador.");
+				}			 
+			 }else{
+			 	$responseVa = array("mensaje"=>"No existe el Pagador.");
+			 }
+		}
+
+		return new JsonResponse($responseVa);
+		
+	}	
 }
