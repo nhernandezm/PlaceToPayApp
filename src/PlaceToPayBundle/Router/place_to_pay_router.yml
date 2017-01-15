@@ -5,3 +5,7 @@ placatopay_back:
 placatopay_transaction:
     resource: "@PlaceToPayBundle/Router/router/transaction_router.yml"
     prefix:   /placetopay
+
+placatopay_person:
+    resource: "@PlaceToPayBundle/Router/router/person_router.yml"
+    prefix:   /placetopay

@@ -1,0 +1,4 @@
+placetoplay_person_create:
+    path:      /person/create
+    defaults:  { _controller: PlaceToPayBundle:Person:create }
+    methods:   [POST]

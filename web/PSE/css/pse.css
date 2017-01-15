@@ -1,0 +1,68 @@
+.pse p {
+    font-family: 'Lato', sans-serif;
+    color: #fdb916;
+    font-size: 1.875em;
+    font-weight: 500;
+    margin: 50px 0px 0px 60px;
+}
+
+.obligatory span{
+	color: red;
+}
+
+.pse img {
+	cursor:pointer;
+}
+
+div.form {
+	max-width: 800px;
+	display: flex;
+	flex-flow: wrap;
+}
+
+ div#windowNewClient label {
+    font-family: 'Lato', sans-serif;
+    color: #fdb916;
+    font-size: 1em;
+    font-weight: 300;
+}
+
+#windowNewClient div.form .div-field {
+	width: 45%;
+	padding-right: 1%;
+	padding-bottom: 1%;
+}
+
+div.form .div-field {
+	width: 32%;
+	padding-right: 1%;
+	padding-bottom: 1%;
+}
+.pse div#form-client {
+	max-width: 800px;
+	display: flex;
+	flow-display: wrap;
+}
+
+.pse div#form-client .div-field-ide {
+	padding-top: 1%;
+	padding-right: 1%;
+}
+
+.pse div#form-client .div-field-idetext {
+	padding-right: 1%;
+}
+
+.pse div#form-client label {
+    font-family: 'Lato', sans-serif;
+    color: #fdb916;
+    font-size: 1em;
+    font-weight: 300;
+}
+
+.pse div#form-client .ide {
+    font-family: 'Lato', sans-serif;
+    color: #fdb916;
+    font-size: 1em;
+    font-weight: 300;
+}

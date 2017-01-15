@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pago PSE</title>
+		<meta charset="UTF-8">
+		<link type="text/css" href="css/pse.css" rel="stylesheet">
+		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js' type='text/javascript'></script>
+
+		<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.3.1118/styles/kendo.common-material.min.css" />
+	    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.3.1118/styles/kendo.material.min.css" />
+	    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.3.1118/styles/kendo.material.mobile.min.css" />
+
+	    <script src="//kendo.cdn.telerik.com/2016.3.1118/js/jquery.min.js"></script>
+	    <script src="//kendo.cdn.telerik.com/2016.3.1118/js/kendo.all.min.js"></script>
+
+	</head>
+<body>
+	<section>
+		<div align="CENTER" class="pse">
+			<img width="100px" id="img_logo_pse" src="../logo-pse.png" alt="PSE - Pagos Seguros en Línea" title="PSE - Pagos Seguros en Línea" >
+			<div class ="form">
+				<div class="div-field"><input id="bank" placeholder="Banco..." style="width: 100%;" /></div>
+				<div class="div-field"><input id="typePerson" placeholder="Persona ..." style="width: 100%;" /></div>
+				<div class="div-field"><button id="buttonCreateTran" class="k-primary">Aceptar</button></div>
+			</div>
+			<div id ="form-client">
+				<div class="div-field-ide"><label id="labelIde">Identificaciòn: </label> </div>
+				<div class="div-field-idetext"><input id="textIdentification" value=""/></div>
+				<div><button id="buttonNewClient" class="k-primary">Nuevo Cliente</button></div>
+			</div>
+		</div>		
+	</section>
+
+	<section>
+	   <div id="windowNewClient" style="display:none">
+           	<div class="form">
+				<div class="div-field">
+					<label>Tipo de Identificacòn: <span class="obligatory">*</span></label>
+					<input id="typeIdentification" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Identificacòn: <span class="obligatory">*</span></label>
+					<input id="identification" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Nombres: <span class="obligatory">*</span></label>
+					<input id="name" style="width: 100%;" />
+				</div>
+
+				<div class="div-field">
+					<label>Apellidos:<span class="obligatory">*</span></label>
+					<input id="lastName" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Email:<span class="obligatory">*</span></label>
+					<input id="email" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Direcciòn:</label>
+					<input id="address" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Celular:</label>
+					<input id="phone" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Telèfono:</label>
+					<input id="telephone" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Compañia:</label>
+					<input id="company" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Ciudad:</label>
+					<input id="city" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Departamento:</label>
+					<input id="province" style="width: 100%;" />
+				</div>
+				<div class="div-field">
+					<label>Pais:</label>
+					<input id="country" style="width: 100%;" />
+				</div>
+				<div class="div-field"><button id="buttonCreateClient" class="k-primary">Aceptar</button></div>
+			</div>
+       </div>
+	</section>
+	<script type="text/javascript" src="js/pse2.js"></script>
+	
+</body>
+</html

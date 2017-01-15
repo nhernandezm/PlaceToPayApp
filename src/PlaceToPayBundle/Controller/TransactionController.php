@@ -32,20 +32,19 @@ class TransactionController extends Controller
 		$payer->setPhone("6908765");
 		$payer->setMobile("3215678099");
 
+
 		$PSETR->setPayer($payer);
 		$PSETR->setBankCode("1040");
 		$PSETR->setBankInterface(0);
 		$PSETR->setReturnURL("http://186.116.70.45:8080/PlaceToPayApp/web/");
 		$PSETR->setReference("1104010448");
 		$PSETR->setDescription("Pago test");
-		$PSETR->setLanguage("ES");
-		$PSETR->setCurrency("COP");
 		$PSETR->setTotalAmount(3000);
 		$PSETR->setTaxAmount(100);
 		$PSETR->setDevolutionBase(16);
 		$PSETR->setTipAmount(30);
 		$PSETR->setIpAddress("186.116.70.45");
-
+		//print_r($_SERVER['REMOTE_ADDR']);
 	    $transaction  = $placetopay->getTransaction()->createTransaction($PSETR);
 	    //https://200.1.124.236/PSEUserRegister/StartTransaction.htm?enc=tnPcJHMKlSnmRpHM8fAbu4E%2b7fr9oAembqT18Wy8nFqRlWUdUHxaCWZSMulp6lJ0
 	    return new JsonResponse($transaction);
