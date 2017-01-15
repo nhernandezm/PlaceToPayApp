@@ -7,18 +7,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use PlaceToPayBundle\Entity\Transaction;
 
 
 class TransactionController extends Controller
 {
 	public function createAction(Request $request)
 	{
-
 		$content = $request->getContent();
 		$dataTansaction = json_decode($content, true);
 
 		$payerData = $dataTansaction["payer"];
 		$buyerData = $dataTansaction["buyer"];
+		$typePerson = $dataTansaction["typePerson"];
+		$bankCode = $dataTansaction["bank"];
 
 		$listBanks = array();
 	    $placetopay = new PlaceToPay("6dd490faf9cb87a9862245da41170ff2","024h1IlD");
@@ -59,8 +61,8 @@ class TransactionController extends Controller
 			$PSETR->setPayer($buyer);
 		}
 
-		$PSETR->setBankCode("1040");
-		$PSETR->setBankInterface(0);
+		$PSETR->setBankCode($bankCode);
+		$PSETR->setBankInterface($typePerson);
 		$PSETR->setReturnURL("http://186.116.70.45:8080/PlaceToPayApp/web/");
 		$PSETR->setReference("1104010448");
 		$PSETR->setDescription("Pago test");
@@ -72,6 +74,31 @@ class TransactionController extends Controller
 		//print_r($_SERVER['REMOTE_ADDR']);
 	    $transaction  = $placetopay->getTransaction()->createTransaction($PSETR);
 	    //https://200.1.124.236/PSEUserRegister/StartTransaction.htm?enc=tnPcJHMKlSnmRpHM8fAbu4E%2b7fr9oAembqT18Wy8nFqRlWUdUHxaCWZSMulp6lJ0
+	    $transaction = $this->saveTransaction($transaction["createTransactionResult"]);
 	    return new JsonResponse($transaction);
+	}
+
+	private function saveTransaction($transactionResponse){
+		$transaction = new Transaction();
+		//print_r($transactionResponse);	
+        $transaction->setBankCurrency($transactionResponse["bankCurrency"]);
+        $transaction->setBankFactor($transactionResponse["bankFactor"]);
+        $transaction->setBankURL($transactionResponse["bankURL"]);
+        $transaction->setResponseCode($transactionResponse["responseCode"]);
+        $transaction->setResponseReasonCode($transactionResponse["responseReasonCode"]);
+        $transaction->setResponseReasonText($transactionResponse["responseReasonText"]);
+        $transaction->setReturnCode($transactionResponse["returnCode"]);
+        $transaction->setSessionID($transactionResponse["sessionID"]);
+        $transaction->setTransactionCycle($transactionResponse["transactionCycle"]);
+        $transaction->setTransactionID($transactionResponse["transactionID"]);
+        $transaction->setTrazabilityCode($transactionResponse["trazabilityCode"]);
+
+        $em = $this->getDoctrine()->getManager();
+	    $em->persist($transaction);
+	    $em->flush();
+	    $transactionResponse["id"] = $transaction->getId();
+
+	    return $transactionResponse;
+
 	}
 }

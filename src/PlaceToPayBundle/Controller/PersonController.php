@@ -68,7 +68,7 @@ class PersonController extends Controller
 		 }
 	}
 
-	public function validateBuyerAndPayerAction($documentBuyer,$documentPayer)
+	public function validateBuyerAndPayerAction($documentPayer,$documentBuyer)
 	{
 		 $em = $this->getDoctrine()->getManager();
 		 $personRepository = $em->getRepository("PlaceToPayBundle:Person");

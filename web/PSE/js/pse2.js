@@ -52,20 +52,37 @@ $(document).ready(function() {
     });
 
     $("#buttonCreateTran").click(function(){
-        var documentClientBuyer = $("#textIdentificationBuyer").data("kendoMaskedTextBox");
-        var documentClientBuyerV = $.trim(documentClientBuyer.value());
-
-        var documentClientPayer = $("#textIdentificationPayer").data("kendoMaskedTextBox");
-        var documentClientPayerV = $.trim(documentClientPayer.value());
-        if(documentClientBuyerV && documentClientPayerV){
-            validateBuyerAndPayer(documentClientBuyerV,documentClientPayerV);
-        }else{
-            alert("Ingrese la identificaciòn del Pagador y del Comprador");
-        }
+        validateDataTransaction();
     });
-
-
 });
+
+function validateDataTransaction(){
+    var documentClientBuyer = $("#textIdentificationBuyer").data("kendoMaskedTextBox");
+    var documentClientBuyerV = $.trim(documentClientBuyer.value());
+
+    var documentClientPayer = $("#textIdentificationPayer").data("kendoMaskedTextBox");
+    var documentClientPayerV = $.trim(documentClientPayer.value());
+
+    var bank = $("#bank").data("kendoComboBox");
+    var typePerson = $("#typePerson").data("kendoComboBox");
+
+    var bankV = bank.value();
+    var typePersonV = typePerson.value();
+
+    if(bankV){
+        if(typePersonV){
+            if(documentClientBuyerV && documentClientPayerV){
+                validateBuyerAndPayer(documentClientBuyerV,documentClientPayerV,bankV,typePersonV);
+            }else{
+                alert("Ingrese la identificaciòn del Pagador y del Comprador");
+            }   
+        }else{
+            alert("Debe seleccionar el tipo de Persona");
+        }
+    }else{
+        alert("Debe seleccionar un banco");
+    }
+}
 
 // Realizar ajax
 function doAjax(url,type,data,fnSucces){
@@ -93,19 +110,25 @@ function doAjax(url,type,data,fnSucces){
 
 //Cargar comboBox de banco
 function loadBankToCombo(data){
-    console.log("combo",data);
+    var listOK = false;
     if(data){
         if(data.getBankListResult){
             if(data.getBankListResult.item){
-                var bankList = data.getBankListResult.item;
-                var dataSource = new kendo.data.DataSource({
-                  data: bankList
-                });
-                var combobox = $("#bank").data("kendoComboBox");
-                combobox.setDataSource(dataSource);
-
+                if(data.getBankListResult.item.length > 0){
+                    var bankList = data.getBankListResult.item;
+                    var dataSource = new kendo.data.DataSource({
+                      data: bankList
+                    });
+                    var combobox = $("#bank").data("kendoComboBox");
+                    combobox.setDataSource(dataSource);
+                }else{
+                   listOK = true; 
+                }
             }
         }
+    }
+    if(listOK){
+        alert("No se pudo obtener la lista de Entidades Financieras, por favor intente más tarde");
     }
 }
 
@@ -262,7 +285,8 @@ function validateClient(){
     }
 }
 
-function validateBuyerAndPayer(documentClientBuyer,documentClientPayer){
+function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,typePerson){
+    $("#div_loading").show();
     doAjax(
         "http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/person/validate/"+documentClientBuyer+"/"+documentClientPayer,
         "GET",
@@ -280,8 +304,12 @@ function validateBuyerAndPayer(documentClientBuyer,documentClientPayer){
                 localStorage.setItem("clientBuyerId",data.payer.id);
                 localStorage.setItem("clientBuyerDocument",data.payer.document);
                 localStorage.setItem("clientBuyerDocumentType",data.payer.documentType);
-                
+                data.bank = bank;
+                data.typePerson = typePerson;
+                console.log(data);
                 createTransaction(data);
+            }else{
+                alert(data.mensaje);
             }
         }
     );
@@ -293,8 +321,9 @@ function createTransaction(dataClient){
         "POST",
         dataClient,
         function(data){
-            if(data.createTransactionResult){
-                console.log(data.createTransactionResult);
+            if(data.returnCode == "SUCCESS"){
+                $("#div_loading").hide();
+                window.location.href = data.bankURL;
             }
         }
     );

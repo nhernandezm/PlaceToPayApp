@@ -7,6 +7,6 @@ placetoplay_person_getbydocument:
     defaults:  { _controller: PlaceToPayBundle:Person:getPersonByDocument }
     methods:   [GET]
 placetoplay_person_validate_buyer_payer:
-    path:      /person/validate/{documentBuyer}/{documentPayer}
+    path:      /person/validate/{documentPayer}/{documentBuyer}
     defaults:  { _controller: PlaceToPayBundle:Person:validateBuyerAndPayer }
     methods:   [GET]

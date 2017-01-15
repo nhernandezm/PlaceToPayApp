@@ -1,0 +1,97 @@
+<?php
+
+namespace PlaceToPayBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="ptp_transaction")
+ */
+class Transaction
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $bankCurrency;
+
+	/**
+     * @ORM\Column(type="string", length=3)
+     */
+	private $bankFactor;
+	
+	/**
+     * @ORM\Column(type="string")
+     */
+	private $bankURL;
+
+	/**
+     * @ORM\Column(type="string", length=50)
+     */
+	private $responseCode;
+
+	/**
+     * @ORM\Column(type="string", length=60)
+     */
+	private $responseReasonCode;
+
+	/**
+     * @ORM\Column(type="string", length=60)
+     */
+	private $responseReasonText;
+
+	/**
+     * @ORM\Column(type="string", length=100)
+     */
+	private $returnCode;
+
+	/**
+     * @ORM\Column(type="string", length=20)
+     */
+	private $sessionID;
+
+	/**
+     * @ORM\Column(type="string", length=20)
+     */
+	private $transactionCycle;
+
+	/**
+     * @ORM\Column(type="string", length=20)
+     */
+	private $transactionID;
+
+	/**
+     * @ORM\Column(type="string", length=30)
+     */
+	private $trazabilityCode;
+
+    /**
+     * Retorna un array con los datos de la persona
+     * @return Array
+     */
+    public function toArray(){
+        $personArray = array();
+
+        $personArray["id"] = $this->getId();
+        $personArray["document"] = $this->getDocument();
+        $personArray["documentType"] = $this->getDocumentType();
+        $personArray["firstName"] = $this->getFirstName();
+        $personArray["lastName"] = $this->getLastName();
+        $personArray["company"] = $this->getCompany();
+        $personArray["emailAddress"] = $this->getEmailAddress();
+        $personArray["address"] = $this->getAddress();
+        $personArray["city"] = $this->getCity();
+        $personArray["province"] = $this->getProvince();
+        $personArray["country"] = $this->getCountry();
+        $personArray["phone"] = $this->getPhone();
+        $personArray["mobile"] = $this->getMobile();
+
+        return $personArray;
+    }
+}
