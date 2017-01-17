@@ -2,3 +2,8 @@ placetoplay_transaction_router:
     path:      /createtransaction
     defaults:  { _controller: PlaceToPayBundle:Transaction:create }
     methods:   [POST]
+
+placetoplay_transaction_info:
+    path:      /transaction/info/{transactionID}
+    defaults:  { _controller: PlaceToPayBundle:Transaction:getTransactionInformation }
+    methods:   [GET]

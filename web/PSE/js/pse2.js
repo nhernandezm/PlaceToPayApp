@@ -43,7 +43,7 @@ $(document).ready(function() {
     $("#buttonNewClient").kendoButton();
     $("#textIdentificationPayer").kendoMaskedTextBox({});
     $("#textIdentificationBuyer").kendoMaskedTextBox({});
-    doAjax("http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/listbanks","GET",null,function(data){
+    doAjax("placetopay/listbanks","GET",null,function(data){
         loadBankToCombo(data);
     });
 
@@ -82,30 +82,6 @@ function validateDataTransaction(){
     }else{
         alert("Debe seleccionar un banco");
     }
-}
-
-// Realizar ajax
-function doAjax(url,type,data,fnSucces){
-
-    if(type == "POST" && data){
-        data = JSON.stringify(data);
-    }
-    $.ajax({
-        type: type,     
-        url: url,
-        data: data,
-        contentType: 'application/json',
-        dataType: "json",                       
-        success: function (data) {
-            fnSucces.call(this,data);
-        },
-        error: function(xhr, status, error) {   
-            if (xhr.responseJSON)
-            {
-                alert(hxr.responseJSON.message);
-            }
-        }
-    });
 }
 
 //Cargar comboBox de banco
@@ -182,7 +158,7 @@ function saveClient(){
     var validateJson = validateClient();
     if(validateJson){
         doAjax(
-            "http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/person/create",
+            "placetopay/person/create",
             "POST",
             validateJson,
             function(data){
@@ -288,7 +264,7 @@ function validateClient(){
 function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,typePerson){
     $("#div_loading").show();
     doAjax(
-        "http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/person/validate/"+documentClientBuyer+"/"+documentClientPayer,
+        "placetopay/person/validate/"+documentClientBuyer+"/"+documentClientPayer,
         "GET",
         null,
         function(data){
@@ -306,9 +282,11 @@ function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,type
                 localStorage.setItem("clientBuyerDocumentType",data.payer.documentType);
                 data.bank = bank;
                 data.typePerson = typePerson;
-                console.log(data);
+                data.ipAddressClient = localStorage.getItem("ipAddressTransaction");
+                data.userAgent = localStorage.getItem("userAgentTransaction");
                 createTransaction(data);
             }else{
+                $("#div_loading").hide();
                 alert(data.mensaje);
             }
         }
@@ -317,14 +295,17 @@ function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,type
 
 function createTransaction(dataClient){
     doAjax(
-        "http://localhost:8080/PlaceToPayApp/web/app_dev.php/placetopay/createtransaction",
+        "placetopay/createtransaction",
         "POST",
         dataClient,
         function(data){
             if(data.returnCode == "SUCCESS"){
                 $("#div_loading").hide();
                 window.location.href = data.bankURL;
+            }else{
+                alert(data.responseReasonText);                
             }
+            $("#div_loading").hide();
         }
     );
     

@@ -19,6 +19,16 @@ class Transaction
     /**
      * @ORM\Column(type="string", length=20)
      */
+    private $documetBuyer;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $documetPayer;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
     private $bankCurrency;
 
 	/**
@@ -365,5 +375,53 @@ class Transaction
     public function getTrazabilityCode()
     {
         return $this->trazabilityCode;
+    }
+
+    /**
+     * Set documetBuyer
+     *
+     * @param string $documetBuyer
+     *
+     * @return Transaction
+     */
+    public function setDocumetBuyer($documetBuyer)
+    {
+        $this->documetBuyer = $documetBuyer;
+
+        return $this;
+    }
+
+    /**
+     * Get documetBuyer
+     *
+     * @return string
+     */
+    public function getDocumetBuyer()
+    {
+        return $this->documetBuyer;
+    }
+
+    /**
+     * Set documetPayer
+     *
+     * @param string $documetPayer
+     *
+     * @return Transaction
+     */
+    public function setDocumetPayer($documetPayer)
+    {
+        $this->documetPayer = $documetPayer;
+
+        return $this;
+    }
+
+    /**
+     * Get documetPayer
+     *
+     * @return string
+     */
+    public function getDocumetPayer()
+    {
+        return $this->documetPayer;
     }
 }
