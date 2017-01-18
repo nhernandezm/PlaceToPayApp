@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: placetopay
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt
+    loginplacetopay: 6dd490faf9cb87a9862245da41170ff2
+    transactionkeyplacetopay: 024h1IlD
+    host_server: 127.0.0.1
+    host_port: 8080
