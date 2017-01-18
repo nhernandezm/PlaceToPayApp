@@ -42,11 +42,14 @@ div.form .div-field {
 	max-width: 800px;
 	display: flex;
 	flow-display: wrap;
+    margin-bottom: 10px;
+	
 }
 
 .pse div#form-client .div-field-ide {
 	padding-top: 1%;
 	padding-right: 1%;
+    width:200px;
 }
 
 .pse div#form-client .div-field-idetext {

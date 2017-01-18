@@ -43,6 +43,10 @@ $(document).ready(function() {
     $("#buttonNewClient").kendoButton();
     $("#textIdentificationPayer").kendoMaskedTextBox({});
     $("#textIdentificationBuyer").kendoMaskedTextBox({});
+    $("#textValue").kendoNumericTextBox({
+        decimals: 1
+    });
+    $("#textReference").kendoMaskedTextBox({});
     doAjax("placetopay/listbanks","GET",null,function(data){
         loadBankToCombo(data);
     });
@@ -63,6 +67,13 @@ function validateDataTransaction(){
     var documentClientPayer = $("#textIdentificationPayer").data("kendoMaskedTextBox");
     var documentClientPayerV = $.trim(documentClientPayer.value());
 
+    var value = $("#textValue").data("kendoNumericTextBox");
+    var valueV = value.value();
+
+    var reference = $("#textReference").data("kendoMaskedTextBox");
+    var referenceV = $.trim(reference.value());
+
+
     var bank = $("#bank").data("kendoComboBox");
     var typePerson = $("#typePerson").data("kendoComboBox");
 
@@ -72,7 +83,21 @@ function validateDataTransaction(){
     if(bankV){
         if(typePersonV){
             if(documentClientBuyerV && documentClientPayerV){
-                validateBuyerAndPayer(documentClientBuyerV,documentClientPayerV,bankV,typePersonV);
+                if(valueV){
+                    if(referenceV){
+                        validateBuyerAndPayer(
+                            documentClientBuyerV,
+                            documentClientPayerV,
+                            bankV,
+                            typePersonV,
+                            valueV,
+                            referenceV);
+                     }else{
+                        alert("Ingresar la referencia de pago");
+                    }
+                }else{
+                    alert("Ingresar el valor");
+                }
             }else{
                 alert("Ingrese la identificaciòn del Pagador y del Comprador");
             }   
@@ -261,7 +286,7 @@ function validateClient(){
     }
 }
 
-function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,typePerson){
+function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,typePerson,value,reference){
     $("#div_loading").show();
     doAjax(
         "placetopay/person/validate/"+documentClientBuyer+"/"+documentClientPayer,
@@ -280,6 +305,8 @@ function validateBuyerAndPayer(documentClientBuyer,documentClientPayer,bank,type
                 localStorage.setItem("clientBuyerId",data.payer.id);
                 localStorage.setItem("clientBuyerDocument",data.payer.document);
                 localStorage.setItem("clientBuyerDocumentType",data.payer.documentType);
+                data.value = value;
+                data.reference = reference;
                 data.bank = bank;
                 data.typePerson = typePerson;
                 data.ipAddressClient = localStorage.getItem("ipAddressTransaction");

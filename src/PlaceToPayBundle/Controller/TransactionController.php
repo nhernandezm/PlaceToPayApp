@@ -20,13 +20,20 @@ class TransactionController extends Controller
 		$documentBuyer = "";
 		$payerData = $dataTansaction["payer"];
 		$buyerData = $dataTansaction["buyer"];
+		$value = $dataTansaction["value"];
+		$reference = $dataTansaction["reference"];
 		$typePerson = $dataTansaction["typePerson"];
 		$ipAddressClient = $dataTansaction["ipAddressClient"];
 		$userAgent = $dataTansaction["userAgent"];
 		$bankCode = $dataTansaction["bank"];
 
+		$login = $this->getParameter('loginplacetopay');
+		$tranKey = $this->getParameter('transactionkeyplacetopay');
+		$ipServer = $this->getParameter('host_server');
+		$port = $this->getParameter('host_port');
+
 		$listBanks = array();
-	    $placetopay = new PlaceToPay("6dd490faf9cb87a9862245da41170ff2","024h1IlD");
+	    $placetopay = new PlaceToPay($login,$tranKey);
 
 	    $payer = $placetopay->newPerson();
 	    $buyer = $placetopay->newPerson();
@@ -69,10 +76,10 @@ class TransactionController extends Controller
 
 		$PSETR->setBankCode($bankCode);
 		$PSETR->setBankInterface($typePerson);
-		$PSETR->setReturnURL("http://localhost:8080/PlaceToPayApp/web/PSE/responseTransaction.html");
-		$PSETR->setReference("1104010448");
+		$PSETR->setReturnURL("http://".$ipServer.":".$port."/PlaceToPayApp/web/PSE/responseTransaction.html");
+		$PSETR->setReference($reference);
 		$PSETR->setDescription("Pago test");
-		$PSETR->setTotalAmount(3000);
+		$PSETR->setTotalAmount($value);
 		$PSETR->setTaxAmount(100);
 		$PSETR->setDevolutionBase(16);
 		$PSETR->setTipAmount(30);
@@ -111,7 +118,9 @@ class TransactionController extends Controller
 
 	public function getTransactionInformationAction($transactionID)
 	{
-	    $placetopay = new PlaceToPay("6dd490faf9cb87a9862245da41170ff2","024h1IlD");
+		$login = $this->getParameter('loginplacetopay');
+		$tranKey = $this->getParameter('transactionkeyplacetopay');
+	    $placetopay = new PlaceToPay($login,$tranKey);
 		$transaction  = $placetopay->getTransaction();	
 		$transactionInfo  = $transaction->getTransactionInformation($transactionID);	
 	    return new JsonResponse($transactionInfo);

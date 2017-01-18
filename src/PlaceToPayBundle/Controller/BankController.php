@@ -14,7 +14,9 @@ class BankController extends Controller
 	public function listAction()
 	{
 		$listBanks = array();
-	    $placetopay = new PlaceToPay("6dd490faf9cb87a9862245da41170ff2","024h1IlD");
+	   	$login = $this->getParameter('loginplacetopay');
+		$tranKey = $this->getParameter('transactionkeyplacetopay');
+	    $placetopay = new PlaceToPay($login,$tranKey);
 	    $listBanks  = $placetopay->getBank()->getBankList();
 
 	    return new JsonResponse($listBanks);
